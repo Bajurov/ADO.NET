@@ -115,6 +115,29 @@ namespace ADO.NET_application
                 }
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (connection)
+            {
+                if (connection.State == ConnectionState.Closed)
+                {
+                    MessageBox.Show("Сначала подключитесь к базе");
+                    return;
+                }
+                SqlCommand command = new SqlCommand();
+                command.Connection = connection;
+                command.CommandText = "SELECT COUNT(*) FROM Products";
+                try
+                {
+                    int number = (int)command.ExecuteScalar();
+                    label1.Text = number.ToString();
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
-    
 }
